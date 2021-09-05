@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuel_tracker/camera_view.dart';
+import 'package:fuel_tracker/home_screen.dart';
 
 void main() async {
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: //TextDetectorView(),
-          CameraView(),
+          HomeScreen(),
     );
   }
 }

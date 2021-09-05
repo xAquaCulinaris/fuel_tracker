@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:fuel_tracker/api/extract_text.dart';
 
 import 'image_view.dart';
 
@@ -31,8 +32,6 @@ class _CameraViewState extends State<CameraView> {
         _initializeControllerFuture = _controller.initialize();
         print("initalizeeeed");
       });
-
-    //_controller.setFlashMode(FlashMode.off);
   }
 
   @override
@@ -45,6 +44,12 @@ class _CameraViewState extends State<CameraView> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<bool> passDataBack(imagePath) async {
+    String textToSendBack = await TextExtractor.extractText(imagePath);
+    Navigator.pop(context, textToSendBack);
+    return true;
   }
 
   @override
@@ -72,14 +77,15 @@ class _CameraViewState extends State<CameraView> {
             await _initializeControllerFuture;
             await _controller.setFlashMode(FlashMode.off);
             final image = await _controller.takePicture();
+            passDataBack(image.path);
 
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(
-                  imagePath: image.path,
-                ),
-              ),
-            );
+            // await Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     builder: (context) => DisplayPictureScreen(
+            //       imagePath: image.path,
+            //     ),
+            //   ),
+            // );
           } catch (e) {
             print(e);
           }
@@ -89,8 +95,6 @@ class _CameraViewState extends State<CameraView> {
     );
   }
 }
-
-
 
 class GuidelineBox extends CustomPainter {
   @override

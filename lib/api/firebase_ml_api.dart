@@ -4,16 +4,15 @@ class FirebaseMLApi {
   TextDetector textDetector = GoogleMlKit.vision.textDetector();
   bool _isBusy = false;
 
-  Future<void> processImage(InputImage inputImage) async {
+  Future<String> processImage(InputImage inputImage) async {
     print("button pressed");
-    if (_isBusy) return;
+    if (_isBusy) return "";
     _isBusy = true;
     final recognisedText = await textDetector.processImage(inputImage);
 
-    List<String> words = recognisedText.text.split(" ");
-    var filteredWords = words.where((element) => element.length > 4);
-    print(filteredWords);
-    //print('Found ${recognisedText.blocks.length} textBlocks');
-    //print('Text: ${recognisedText.text}');
+    // List<String> words = recognisedText.text.split(" ");
+    // var filteredWords = words.where((element) => element.length > 4);
+    // print(filteredWords);
+    return recognisedText.text;
   }
 }
